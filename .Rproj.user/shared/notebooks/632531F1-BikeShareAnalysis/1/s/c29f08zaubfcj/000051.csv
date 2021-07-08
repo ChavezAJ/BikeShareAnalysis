@@ -1,0 +1,7 @@
+"0","all_trips_v2 %>% group_by(month, year) %>% "
+"0","                 summarise(number_of_rides = n(),"
+"0","                           avg_ride_seconds = mean(ride_seconds)) %>%"
+"0","                 ungroup() %>%"
+"0","                 mutate(total = sum(number_of_rides), percent_of_total_rides = (number_of_rides / total)* 100)"
+"1","`summarise()` has grouped output by 'month'. You can override using the `.groups` argument.
+"

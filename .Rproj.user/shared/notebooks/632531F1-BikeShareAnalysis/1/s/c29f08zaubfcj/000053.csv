@@ -1,0 +1,8 @@
+"0","all_trips_v2 %>% group_by(member_casual, date) %>% "
+"0","                 summarise(number_of_rides = n()) %>%"
+"0","                 ggplot(aes(x = date, y = number_of_rides, color = member_casual)) + geom_smooth() +"
+"0","                 labs(title = ""Total Rides by Date"", x = ""Date"", y = ""Number of Rides"", color = ""User Type"")"
+"1","`summarise()` has grouped output by 'member_casual'. You can override using the `.groups` argument.
+"
+"2","`geom_smooth()` using method = 'loess' and formula 'y ~ x'
+"

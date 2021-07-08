@@ -1,0 +1,6 @@
+"0","all_trips_v2 <- mutate(all_trips,"
+"0","                       ride_hours = as.numeric(hour(ride_length) + minute(ride_length) / 60 + second(ride_length) / 3600),"
+"0","                       ride_minutes = as.numeric(hour(ride_length) * 60 + minute(ride_length) + second(ride_length) / 60),"
+"0","                       ride_seconds = as.numeric(hour(ride_length) * 3600 + minute(ride_length) * 60 + second(ride_length)),"
+"0","                       ride_length = format(ride_length,format = ""%H:%M:%S""))"
+"0",""

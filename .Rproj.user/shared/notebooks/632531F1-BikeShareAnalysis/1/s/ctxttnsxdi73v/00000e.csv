@@ -1,0 +1,11 @@
+"0",""
+"0","all_trips_v2 %>% "
+"0","  group_by(member_casual, day_of_week) %>% "
+"0","  summarise(number_of_rides = n(),"
+"0","            average_duration = mean(ride_seconds)) %>% "
+"0","  arrange(member_casual, day_of_week)  %>% "
+"0","  ggplot(aes(x = day_of_week, y = number_of_rides, fill = member_casual)) +"
+"0","  geom_col(position = ""dodge"") +"
+"0","  labs(title = ""Total Rides Between Casuals and Members"", x = ""Day of Week"", y = ""Number of Rides"", fill = ""User Type"")"
+"1","`summarise()` has grouped output by 'member_casual'. You can override using the `.groups` argument.
+"

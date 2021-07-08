@@ -1,0 +1,293 @@
+---
+title: "Bike Share Analysis"
+author: "Jorge Chavez"
+date: "6/29/2021"
+output: html_document
+---
+
+## Introduction
+
+This analysis is for a case study called "'Sophisticated, Clear, and Polished’: Divvy and Data Visualization" written by Kevin Hartman (found here:<https://artscience.blog/home/divvy-dataviz-case-study)> 
+
+We will be using the Divvy dataset for the case study. The time frame for our data analysis runs from April 2020 through May 2021. The purpose of this script is to consolidate Divvy data into a single data frame, conduct simple analysis, and visualize trends to help answer our key question: “In what ways do members and casual riders use bikes differently?” and achieve our goal of maximizing the number of annual memberships.
+
+First, we will install the packages that will help us get to our solution.
+
+```{r include=FALSE}
+library(tidyverse) #used for wrangling data
+library(lubridate) #used for wrangling date attributes
+library(ggplot2) #used for visualizing data
+library(readxl) #used for reading Excel files
+```
+## Data Preparation
+
+Excel was previously used to clean the data sets from duplicates and missing information using conditional formatting. Files were also reduced down to a sample size.
+
+Columns such as the day of the week, distance traveled, and length of trip were added to each dataset. This ensured a more efficient data analysis.
+
+```{r warning=FALSE, include=FALSE}
+apr_2020 <- read_excel("C:\\Users\\chave\\Documents\\BikeShareExcel\\202004BikeShare.xlsx")
+
+may_2020 <- read_excel("C:\\Users\\chave\\Documents\\BikeShareExcel\\202005BikeShare.xlsx")
+
+jun_2020 <- read_excel("C:\\Users\\chave\\Documents\\BikeShareExcel\\202006BikeShare.xlsx")
+
+jul_2020 <- read_excel("C:\\Users\\chave\\Documents\\BikeShareExcel\\202007BikeShare.xlsx")
+
+aug_2020 <- read_excel("C:\\Users\\chave\\Documents\\BikeShareExcel\\202008BikeShare.xlsx")
+
+sep_2020 <- read_excel("C:\\Users\\chave\\Documents\\BikeShareExcel\\202009BikeShare.xlsx")
+
+oct_2020 <- read_excel("C:\\Users\\chave\\Documents\\BikeShareExcel\\202010BikeShare.xlsx")
+
+nov_2020 <- read_excel("C:\\Users\\chave\\Documents\\BikeShareExcel\\202011BikeShare.xlsx")
+
+dec_2020 <- read_excel("C:\\Users\\chave\\Documents\\BikeShareExcel\\202012BikeShare.xlsx")
+
+jan_2021 <- read_excel("C:\\Users\\chave\\Documents\\BikeShareExcel\\202101BikeShare.xlsx")
+
+feb_2021 <- read_excel("C:\\Users\\chave\\Documents\\BikeShareExcel\\202102BikeShare.xlsx")
+
+mar_2021 <- read_excel("C:\\Users\\chave\\Documents\\BikeShareExcel\\202103BikeShare.xlsx")
+
+apr_2021 <- read_excel("C:\\Users\\chave\\Documents\\BikeShareExcel\\202104BikeShare.xlsx")
+
+may_2021 <- read_excel("C:\\Users\\chave\\Documents\\BikeShareExcel\\202105BikeShare.xlsx")
+
+```
+
+## Data Wrangling & File Combination
+
+Observed column names of files to ensure they match across all data sets.
+
+```{r}
+colnames(apr_2020)
+colnames(may_2020)
+colnames(jun_2020)
+colnames(jul_2020)
+colnames(aug_2020)
+colnames(sep_2020)
+colnames(oct_2020)
+colnames(nov_2020)
+colnames(dec_2020)
+colnames(jan_2021)
+colnames(feb_2021)
+colnames(mar_2021)
+colnames(apr_2021)
+colnames(may_2021)
+```
+
+Inspected the data frames of our files for find potential inconsistencies.
+
+```{r include=FALSE}
+str(apr_2020)
+str(may_2020)
+str(jun_2020)
+str(jul_2020)
+str(aug_2020)
+str(sep_2020)
+str(oct_2020)
+str(nov_2020)
+str(dec_2020)
+str(jan_2021)
+str(feb_2021)
+str(mar_2021)
+str(apr_2021)
+str(may_2021)
+
+```
+
+Columns ride_id, rideable_id, start_station_id, and end_station_id were changed to character data types to ensure our rows get stacked properly.
+
+
+```{r}
+apr_2020 <-  mutate(apr_2020, ride_id = as.character(ride_id),
+                   rideable_type = as.character(rideable_type),
+                   start_station_id = as.character(start_station_id),
+                   end_station_id = as.character(end_station_id))
+may_2020 <-  mutate(may_2020, ride_id = as.character(ride_id),
+                   rideable_type = as.character(rideable_type),
+                   start_station_id = as.character(start_station_id),
+                   end_station_id = as.character(end_station_id))
+jun_2020 <-  mutate(jun_2020, ride_id = as.character(ride_id),
+                   rideable_type = as.character(rideable_type),
+                   start_station_id = as.character(start_station_id),
+                   end_station_id = as.character(end_station_id))
+jul_2020 <-  mutate(jul_2020, ride_id = as.character(ride_id),
+                   rideable_type = as.character(rideable_type),
+                   start_station_id = as.character(start_station_id),
+                   end_station_id = as.character(end_station_id))
+aug_2020 <-  mutate(aug_2020, ride_id = as.character(ride_id),
+                   rideable_type = as.character(rideable_type),
+                   start_station_id = as.character(start_station_id),
+                   end_station_id = as.character(end_station_id))
+sep_2020 <-  mutate(sep_2020, ride_id = as.character(ride_id),
+                   rideable_type = as.character(rideable_type),
+                   start_station_id = as.character(start_station_id),
+                   end_station_id = as.character(end_station_id))
+oct_2020 <-  mutate(oct_2020, ride_id = as.character(ride_id),
+                   rideable_type = as.character(rideable_type),
+                   start_station_id = as.character(start_station_id),
+                   end_station_id = as.character(end_station_id))
+nov_2020 <-  mutate(nov_2020, ride_id = as.character(ride_id),
+                   rideable_type = as.character(rideable_type),
+                   start_station_id = as.character(start_station_id),
+                   end_station_id = as.character(end_station_id))
+dec_2020 <-  mutate(dec_2020, ride_id = as.character(ride_id),
+                   rideable_type = as.character(rideable_type),
+                   start_station_id = as.character(start_station_id),
+                   end_station_id = as.character(end_station_id))
+jan_2021 <-  mutate(jan_2021, ride_id = as.character(ride_id),
+                   rideable_type = as.character(rideable_type),
+                   start_station_id = as.character(start_station_id),
+                   end_station_id = as.character(end_station_id))
+feb_2021 <-  mutate(feb_2021, ride_id = as.character(ride_id),
+                   rideable_type = as.character(rideable_type),
+                   start_station_id = as.character(start_station_id),
+                   end_station_id = as.character(end_station_id))
+mar_2021 <-  mutate(mar_2021, ride_id = as.character(ride_id),
+                   rideable_type = as.character(rideable_type),
+                   start_station_id = as.character(start_station_id),
+                   end_station_id = as.character(end_station_id))
+apr_2021 <-  mutate(apr_2021, ride_id = as.character(ride_id),
+                   rideable_type = as.character(rideable_type),
+                   start_station_id = as.character(start_station_id),
+                   end_station_id = as.character(end_station_id))
+may_2021 <-  mutate(may_2021, ride_id = as.character(ride_id),
+                   rideable_type = as.character(rideable_type),
+                   start_station_id = as.character(start_station_id),
+                   end_station_id = as.character(end_station_id))
+
+```
+
+Combined all excel trip files into one big data frame. 
+
+```{r}
+all_trips <- bind_rows(apr_2020, may_2020, jun_2020, jul_2020,
+                       aug_2020, sep_2020, oct_2020, nov_2020, dec_2020,
+                       jan_2021, feb_2021, mar_2021, apr_2021, may_2021)
+```
+
+## Data Cleaning & Analysis Preparation
+
+Used mutate to create calculated fields ride_hours, ride_minutes, and ride_seconds for future analysis as well as format ride_length to the correct format.
+
+```{r}
+all_trips_v2 <- mutate(all_trips,
+                       ride_hours = as.numeric(hour(ride_length) + minute(ride_length) / 60 + second(ride_length) / 3600),
+                       ride_minutes = as.numeric(hour(ride_length) * 60 + minute(ride_length) + second(ride_length) / 60),
+                       ride_seconds = as.numeric(hour(ride_length) * 3600 + minute(ride_length) * 60 + second(ride_length)),
+                       ride_length = format(ride_length,format = "%H:%M:%S"))
+
+```
+
+Used column started_at to create fields that aggregate for date, month, day, and year of a given trip.
+
+```{r}
+all_trips_v2$date <- as.Date(all_trips_v2$started_at)
+all_trips_v2$month <- format(as.Date(all_trips_v2$date), "%m")
+all_trips_v2$day <- format(as.Date(all_trips_v2$date), "%d")
+all_trips_v2$year <- format(as.Date(all_trips_v2$date), "%Y")
+all_trips_v2$day_of_week <- format(as.Date(all_trips_v2$date), "%A")
+
+```
+
+Summarized altered dataset to confirm columns have correct data types. Also ensured unique values for column member_casual is free from any typos or incorrect data.
+
+```{r}
+
+summary(all_trips_v2)
+
+all_trips_v2 %>% distinct(member_casual)
+
+```
+
+The summary of all_trips revealed that some rows have nulls. This code cleans our dataset from any missing values.
+
+```{r}
+all_trips_v2 <- na.omit(all_trips_v2)
+
+```
+
+Removed entries where bikes were taken out of their docks for quality checks, as well as entries that had ride lengths of 0 seconds or less.
+
+```{r}
+all_trips_v2 <- all_trips_v2[!(all_trips_v2$start_station_name == "WATSON TESTING - DIVVY"
+                            | all_trips_v2$start_station_name == "HUBBARD ST BIKE CHECKING (LBS-WH-TEST)"
+                            | all_trips_v2$ride_seconds<=0),]
+
+```
+
+## Descriptive Analysis
+
+Compared minimum, maximum, mean average, and median of ride length between casual riders and members.
+
+```{r}
+
+aggregate(all_trips_v2$ride_seconds ~ all_trips_v2$member_casual, FUN = mean)
+aggregate(all_trips_v2$ride_seconds ~ all_trips_v2$member_casual, FUN = median)
+aggregate(all_trips_v2$ride_seconds ~ all_trips_v2$member_casual, FUN = max)
+aggregate(all_trips_v2$ride_seconds ~ all_trips_v2$member_casual, FUN = min)
+
+```
+
+Compared average ride length (in seconds) for each day between casual riders and members. This shows that casual riders, on average, have longer trip duration on any given date.
+
+```{r}
+all_trips_v2$day_of_week <- ordered(all_trips_v2$day_of_week, levels=c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))
+
+aggregate(all_trips_v2$ride_seconds ~ all_trips_v2$member_casual + all_trips_v2$day_of_week, FUN = mean)
+
+all_trips_v2 %>% 
+  group_by(member_casual, day_of_week) %>% 
+  summarise(number_of_rides = n()
+            ,average_duration = mean(ride_seconds)) %>% 
+  arrange(member_casual, day_of_week)  %>% 
+  ggplot(aes(x = day_of_week, y = average_duration, fill = member_casual)) +
+  geom_col(position = "dodge") + 
+  labs(title = "Ride Durations Between Casuals and Members", x = "Day of Week", y = "Average Ride Duration", fill = "User Type")
+
+
+```
+
+Created a bar graph to visualize number of rides between casual riders and members throughout the week. This visualization shows that a majority of casual riders are active on Saturday's and Sunday's.
+
+```{r}
+
+all_trips_v2 %>% 
+  group_by(member_casual, day_of_week) %>% 
+  summarise(number_of_rides = n(),
+            average_duration = mean(ride_seconds)) %>% 
+  arrange(member_casual, day_of_week)  %>% 
+  ggplot(aes(x = day_of_week, y = number_of_rides, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  labs(title = "Total Rides Between Casuals and Members", x = "Day of Week", y = "Number of Rides", fill = "User Type")
+
+```
+
+This code shows that most activity is in the warmer months of the year. Once it starts getting colder, people are more reluctant on using the bike share service.
+
+```{r}
+all_trips_v2 %>% group_by(month, year) %>% 
+                 summarise(number_of_rides = n(),
+                           avg_ride_seconds = mean(ride_seconds)) %>%
+                 ungroup() %>%
+                 mutate(total = sum(number_of_rides), percent_of_total_rides = (number_of_rides / total)* 100)
+
+all_trips_v2 %>% group_by(member_casual, date) %>% 
+                 summarise(number_of_rides = n()) %>%
+                 ggplot(aes(x = date, y = number_of_rides, color = member_casual)) + geom_smooth() +
+                 labs(title = "Total Rides by Date (4/2020 - 5/2021)", x = "Date", y = "Number of Rides", color = "User Type")
+
+```
+##Summary
+
+Our analysis has shown some differences between user types, but has also shown a similarity that may be helpful in the future. To answer our main question, we will use 2 key differences that were found in our analysis.
+
+The first key difference between the two user types is the length of a trip. Our analysis found that casual users, on average, travel far longer than users that have memberships. This could mean that members simply use the bikes to get from point A, to point B. 
+
+Our second key difference in activity throughout the week. Membership usage is around 40k rides per day, with a small influx on Friday and Saturday. Casual users are between 20k - 23k from Monday - Thursday, then increase to around 30k on Friday, and ultimately surge to over 50k on Saturday and over 40k on Sunday.
+
+Another valuable insight that this analysis found, is that bike usage is the highest during warmer months. The two most active and warmest months of the year were July and August 2020. Together, they made up 28.68% of the total number of rides. The worst performing and coldest months in our dataset were January and February 2021. These made up just 2.07% and 1.07% of the total number of rides, respectively.
+
+In conclusion, our analysis supports the idea that casual users use the bike service for entertainment, while members most likely use the service for utility like work/errand travel. In order to increase membership sales, the marketing team should introduce promotions around Summer/Spring, and also introduce membership perks for weekend users or users that exceed a certain amount of time on a bike. An Example of this would be charging a reduced rate after using the bike for 45 minutes.

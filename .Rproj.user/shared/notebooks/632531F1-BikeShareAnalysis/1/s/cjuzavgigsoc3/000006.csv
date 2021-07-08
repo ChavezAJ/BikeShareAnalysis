@@ -1,0 +1,4 @@
+"0","all_trips_v2 <- all_trips_v2[!(all_trips_v2$start_station_name == ""WATSON TESTING - DIVVY"""
+"0","                            | all_trips_v2$start_station_name == ""HUBBARD ST BIKE CHECKING (LBS-WH-TEST)"""
+"0","                            | all_trips_v2$ride_seconds<=0),]"
+"0",""

@@ -1,0 +1,2 @@
+"0",""
+"0","all_trips_v2 %>% distinct(rideable_type)"

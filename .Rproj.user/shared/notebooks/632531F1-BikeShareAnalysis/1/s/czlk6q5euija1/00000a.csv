@@ -1,0 +1,7 @@
+"0","all_trips_v2$date <- as.Date(all_trips_v2$started_at)"
+"0","all_trips_v2$month <- format(as.Date(all_trips_v2$date), ""%m"")"
+"0","all_trips_v2$day <- format(as.Date(all_trips_v2$date), ""%d"")"
+"0","all_trips_v2$year <- format(as.Date(all_trips_v2$date), ""%Y"")"
+"0","all_trips_v2$day_of_week <- format(as.Date(all_trips_v2$date), ""%A"")"
+"0",""
+"0",""
