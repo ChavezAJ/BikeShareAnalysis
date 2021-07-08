@@ -77,7 +77,7 @@ colnames(apr_2021)
 colnames(may_2021)
 ```
 
-Inspected the data frames of our files for find potential inconsistencies.
+Inspected the data frames of our files to find potential inconsistencies.
 
 ```{r include=FALSE}
 str(apr_2020)
